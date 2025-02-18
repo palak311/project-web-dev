@@ -1,0 +1,71 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-social {
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="login-container">
+        <h2 class="text-center">Sign in</h2>
+
+        
+        <button class="btn btn-dark btn-social"><width="20"> Sign in with IMDb</button>
+        <button class="btn btn-secondary btn-social"><width="20"> Sign in with Amazon</button>
+        <button class="btn btn-light btn-social"><width="20"> Sign in with Google</button>
+        <button class="btn btn-dark btn-social"><width="20"> Sign in with Apple</button>
+
+        <div class="text-center my-3">
+            <span>or</span>
+        </div>
+
+        
+        
+            <form action="{{ url_for('login') }}" method="POST">
+                <input type="email" name="email" placeholder="Enter email" required>
+                <input type="password" name="password" placeholder="Enter password" required>
+                <button type="submit">Sign In</button>
+            </form>
+            
+
+        <div class="text-center mt-3">
+            <a href="{{ url_for('register') }}" class="btn btn-warning w-100">Create a New Account</a>
+        </div>
+
+        <hr>
+
+        <h5>Benefits of Your Free Account</h5>
+        <ul>
+            <li>Personalized Recommendations</li>
+            <li>Your Watchlist</li>
+            <li>Your Ratings</li>
+            <li>Contribute to Movie Database</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMDb clone</title>
+    
+      <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/moviePage.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/myfav.css') }}"> -->
+    
+    <script
+    src="https://kit.fontawesome.com/74894dafb2.js"
+    crossorigin="anonymous"
+  ></script>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com"><!--preconnects to google fonts for faster loading-->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+    
+    <section class="main">
+          <!-- navigation section html code which include logo(Menu) , searchBox , watchList(favorite movie list) , imbdPro(popup) section & signIn Imdb Functionality    -->
+        
+         <nav class="nav-menu">
+
+             
+              <div class="logo-menu" onclick=showMenu()>
+                <div class="imdb-logo" id="i-logo">
+                     <img src="{{url_for('static',filename='images/cineverse.webp')}}" alt="imdb-logo">
+                </div>
+                <div class="bar-menu hover">
+                    <i class="fa-solid fa-bars"></i> <span>Menu</span>
+                </div>
+              </div>
+                 
+              <div class="search-box">
+                <input type="text" name="searchMovie" id="searchMovie" placeholder="Search IMDb"
+                autocomplete="off">
+                <div id="search-icon"> <i class="fa-solid fa-magnifying-glass"></i></div>
+              </div>
+            
+              <div class="fabs-login">
+                <h1 class="hover imdbpro" id="im-pro">IMDb<span id="diff-color">Pro</span>  |</h1>
+                 <!-- this small page pop page will be shown when you hover IMDbPro option  -->
+<!-- ----------- -->
+                <div class="pop-up">
+                  <div class="popup-img">
+                      <img src="{{url_for('static',filename='images/pop-up.webp')}}" alt="popup-img-">
+                  </div>
+      
+                  <div class="pop-up-desc">
+                    <h2 style="font-size: 20px;">The essential resource for entertainment professionals</h2>
+                    <ul class="popup-list">
+                      <li>Find industry contacts & talent represantation</li>
+                      <li>Acess in development titles not available on IMDb</li>
+                      <li>Get latest news from leading industry trades</li>
+                      <li>Claim your pagr and control brand across IMDb & Amazon</li>
+                  </ul>
+                   <button class="popup-btn">Try IMDbPro Free</button>
+                  </div>
+                 </div>
+<!-- --------------- -->
+                
+                <h3 class="hover"><a href="{{url_for('watchlist')}}"><i class="fa-solid fa-folder-plus"></i> Watchlist</a></h3>
+                <nav>
+                  <ul>
+                      {% if current_user.is_authenticated %}
+                          <li>Welcome, {{ current_user.username }}!</li>
+                          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                      {% else %}
+                          <li><a href="{{ url_for('login') }}">Sign In</a></li>
+                          <li><a href="{{ url_for('register') }}">Register</a></li>
+                      {% endif %}
+                  </ul>
+              </nav>
+                <h3 class="hover" id="signin"><a href="{{url_for('login')}}" target="_blank">Sign In</a></h3>
+              </div>
+         </nav>
+            
+         
+
+         <div class="side-option" id="side">
+          <i class="fa fa-times" onclick="hideMenu()"></i>
+          <br>
+          <br>
+           <ul class="side-list">
+               <li>
+                 
+                <div> <i class="fa-solid fa-film"></i>&nbsp;<span>Movies</span></div><!--fonts from font awesome website-->
+                <div><i class="fa-solid fa-chevron-down"></i></div>
+               </li>
+               <li>
+                <div> <i class="fa-solid fa-tv"></i>&nbsp;<span>Tv Shows</span></div>
+                <div><i class="fa-solid fa-chevron-down"></i></div>
+               </li>
+               <li>
+                <div><i class="fa-solid fa-video"></i>&nbsp;<span>Watch</span></div>
+                <div><i class="fa-solid fa-chevron-down"></i></div>
+               </li>
+               <li>
+                <div> <i class="fa-solid fa-award"></i>&nbsp;<span>Awards & Events</span></div>
+                <div><i class="fa-solid fa-chevron-down"></i></div>
+               </li>
+               <li>
+                <div><i class="fa-solid fa-person"></i>&nbsp;<span>Celebs</span></div>
+                <div><i class="fa-solid fa-chevron-down"></i></div>
+               </li>
+               <li>
+                <div><i class="fa-solid fa-globe"></i>&nbsp;<span>Community</span></div>
+                <div><i class="fa-solid fa-chevron-down"></i></div>
+               </li>
+               <br>
+               <br>
+               <li>
+                  <div>
+                    <h4>IMDbPro</h4>
+                    <p style="font-size: 15px;">For Industrial Professionals</p>
+                  </div>
+                  <div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+               </li>
+             
+           </ul>
+       </div>
+
+
+
+       <!-- container for movie list coming from IMDB API here i access Api proprty and functionality and form dynamic Html Element that append here-->
+       <div id="movies">
+
+        <div class="movie-element">
+
+          <img src="https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg" alt="image-h">
+          <div class="movie-info">
+            <h3>Movie Title</h3>
+            <div class="star-fab">
+              <span class="yellow"><i class="fa-solid fa-plus"></i></span>
+              <span class="yellow"><i class="fa-solid fa-star">&nbsp;</i>9.8</span>
+            </div>
+          </div>
+          <div class="overview">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit laborum eos nobis nam, cupiditate ducimus optio? Nobis possimus debitis suscipit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, reprehenderit?
+          </div>
+
+        </div> 
+
+
+       
+
+      </div>
+
+
+      <!-- button for next page and prev page  -->
+      <div class="page-navigate">
+        <button id="prev-page">Prev</button>
+        <button id="next-page">Next</button>
+      </div>
+         
+
+    </section>
+    <!-- external javascript for home page  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script1.js') }}"></script>
+    
+    <form method="GET" action="{{ url_for('home') }}">
+      <label for="genre">Filter by Genre:</label>
+      <select name="genre" onchange="this.form.submit()">
+          <option value="">All Genres</option>
+          {% for g in genres %}
+          <option value="{{ g.genre }}" {% if g.genre == request.args.get('genre') %}selected{% endif %}>{{ g.genre }}</option>
+          {% endfor %}
+      </select>
+  
+      <label for="sort_by">Sort by:</label>
+      <select name="sort_by" onchange="this.form.submit()">
+          <option value="release_date" {% if request.args.get('sort_by') == 'release_date' %}selected{% endif %}>Newest First</option>
+          <option value="rating" {% if request.args.get('sort_by') == 'rating' %}selected{% endif %}>Highest Rated</option>
+      </select>
+  </form>
+  
+</body>
+</html>

@@ -1,0 +1,18 @@
+
+{% block content %}
+<h2>My Watchlist</h2>
+{% if movies %}
+    <ul>
+        {% for movie in movies %}
+            <li>{{ movie.title }}
+                <form action="{{ url_for('remove_from_watchlist', movie_id=movie.id) }}" method="post">
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No movies in your watchlist yet.</p>
+{% endif %}
+{% endblock %}
+
